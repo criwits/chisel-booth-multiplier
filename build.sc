@@ -33,6 +33,4 @@ trait ChiselModule extends ScalaModule {
 }
 
 
-object GCD extends ChiselModule {
-  
-}
+object BoothMultiplier extends ChiselModule {}
