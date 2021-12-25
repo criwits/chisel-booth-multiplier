@@ -35,7 +35,7 @@ class BoothTest extends FlatSpec with ChiselScalatestTester with Matchers {
         c.io.out.result.expect(216.S)
         c.clock.step()
 
-        // -6 * -7 = -42
+        // -6 * -7 = 42
         // This test failed.
         c.io.in.start.poke(true.B)
         c.io.in.num_1.poke((-6).S)
@@ -47,35 +47,33 @@ class BoothTest extends FlatSpec with ChiselScalatestTester with Matchers {
           c.clock.step()
         }
 
-        c.io.out.result.expect((-42).S)
+        c.io.out.result.expect((42).S)
         c.clock.step()
 
-        // // Random generator
-        // val r = scala.util.Random
-        // // Test for 1000 times
-        // for (i <- 1 until 1000) {
-        //   val num_1 = r.nextInt()
-        //   val num_2 = r.nextInt()
-        //   var answer: Long = (num_1.toLong) * (num_2.toLong)
+        // Random generator
+        val r = scala.util.Random
+        // Test for 1000 times
+        for (i <- 1 to 1000) {
+          val num_1 = r.nextInt()
+          val num_2 = r.nextInt()
+          var answer: Long = (num_1.toLong) * (num_2.toLong)
 
-        //   print(s"Test round $i: $num_1 * $num_2 \n")
-        //   c.io.in.start.poke(true.B)
-        //   c.io.in.num_1.poke(num_1.S)
-        //   c.io.in.num_2.poke(num_2.S)
-        //   c.clock.step()
-        //   c.io.in.start.poke(false.B)
+          print(Console.YELLOW + s"Test round $i: $num_1 * $num_2... " + Console.RESET)
+          c.io.in.start.poke(true.B)
+          c.io.in.num_1.poke(num_1.S)
+          c.io.in.num_2.poke(num_2.S)
+          c.clock.step()
+          c.io.in.start.poke(false.B)
 
-        //   while (c.io.out.busy.peek().litValue != 0) {
-        //     c.clock.step()
-        //   }
+          while (c.io.out.busy.peek().litValue != 0) {
+            c.clock.step()
+          }
 
-        //   c.io.out.result.expect(answer.S)
-        //   c.clock.step()
+          c.io.out.result.expect(answer.S)
+          print(Console.GREEN + "Passed!\n" + Console.RESET)
+          c.clock.step()
 
-        // }
-
-
-
+        }
     }
   }
 }
